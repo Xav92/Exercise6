@@ -212,6 +212,28 @@ $(function() {
   });
 
   // Click events
+  // adding click
+function sendStatus(status){
+  socket.emit('status',status);
+}
+
+document.getElementById("busy-button").onclick = function() {
+  sendStatus('Tien is busy');
+};
+
+document.getElementById("available-button").onclick = function() {
+  sendStatus('Brian is available');
+};
+
+// display message
+
+const receive =function(status){
+  const li = document.createElement('li');
+  li.innerText = status;
+  document.querySelector('.messages').appendChild(li);
+
+}
+socket.on('status',receive);
 
   // Focus input when clicking anywhere on login page
   $loginPage.click(() => {
@@ -263,6 +285,11 @@ $(function() {
   socket.on('stop typing', (data) => {
     removeChatTyping(data);
   });
+
+
+
+
+
 
   socket.on('disconnect', () => {
     log('you have been disconnected');
